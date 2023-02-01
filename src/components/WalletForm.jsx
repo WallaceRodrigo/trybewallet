@@ -1,9 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { currencyAPI } from '../redux/actions';
+import { addExpense, currencyAPI, sumTotalField } from '../redux/actions';
+
+const INITIAL_STATE = {
+  value: '',
+  description: '',
+  currency: 'USD',
+  method: 'Dinheiro',
+  tag: 'Alimentação',
+};
 
 class WalletForm extends Component {
+  state = {
+    id: 0,
+    ...INITIAL_STATE,
+  };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(currencyAPI());
@@ -16,10 +29,35 @@ class WalletForm extends Component {
     this.setState({ [name]: value });
   };
 
+  onClick = () => {
+    const { dispatch, currentPrice } = this.props;
+    const { id, currency, value } = this.state;
+
+    this.setState({ id: id + 1 });
+
+    dispatch(currencyAPI());
+
+    const expense = {
+      ...this.state,
+      exchangeRates: currentPrice,
+    };
+
+    dispatch(addExpense(expense));
+
+    const exchangeFiltered = Object.values(currentPrice).find((a) => a.code === currency);
+    dispatch(sumTotalField(value * exchangeFiltered.ask));
+
+    this.setState({
+      ...INITIAL_STATE,
+    });
+  };
+
   render() {
     const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const tags = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     const { currencies } = this.props;
+    const { value, description, currency, method, tag } = this.state;
+
     return (
       <div>
         <label htmlFor="value-input">
@@ -28,7 +66,8 @@ class WalletForm extends Component {
             type="number"
             data-testid="value-input"
             id="value-input"
-            name="value-input"
+            name="value"
+            value={ value }
             onChange={ this.handleChange }
           />
         </label>
@@ -38,25 +77,30 @@ class WalletForm extends Component {
             type="text"
             data-testid="description-input"
             id="description-input"
+            name="description"
+            value={ description }
             onChange={ this.handleChange }
           />
         </label>
         <select
-          name="currency"
           id="currency"
           data-testid="currency-input"
+          name="currency"
+          value={ currency }
           onChange={ this.handleChange }
         >
           {
-            currencies.map((currency, index) => (
-              <option key={ index }>{ currency }</option>
+            currencies.map((curr, index) => (
+              <option key={ index }>{ curr }</option>
             ))
           }
         </select>
         <select
-          name="method-input"
           id="method-input"
           data-testid="method-input"
+          name="method"
+          value={ method }
+          onChange={ this.handleChange }
         >
           {
             methods.map((met, index) => (
@@ -65,16 +109,19 @@ class WalletForm extends Component {
           }
         </select>
         <select
-          name="tag-input"
           id="tag-input"
           data-testid="tag-input"
+          name="tag"
+          value={ tag }
+          onChange={ this.handleChange }
         >
           {
-            tags.map((tag, index) => (
-              <option key={ index }>{ tag }</option>
+            tags.map((t, index) => (
+              <option key={ index }>{ t }</option>
             ))
           }
         </select>
+        <button onClick={ () => this.onClick() }>Adicionar despesa</button>
       </div>
     );
   }
@@ -82,11 +129,17 @@ class WalletForm extends Component {
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentPrice: PropTypes.shape({
+    USD: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  currentPrice: state.wallet.currentPrice,
 });
 
 export default connect(mapStateToProps)(WalletForm);

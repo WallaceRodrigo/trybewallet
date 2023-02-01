@@ -2,6 +2,8 @@ export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const CURRENCY_API = 'CURRENCY_API';
 export const API_SUCCESS = 'API_SUCCESS';
 export const API_ERROR = 'API_ERROR';
+export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const SUM_TOTALFIELD = 'SUM_TOTALFIELD';
 
 export const saveEmail = (email) => ({ type: SAVE_EMAIL, email });
 
@@ -19,3 +21,7 @@ export const currencyAPI = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const addExpense = (expenses) => ({ type: ADD_EXPENSE, expenses });
+
+export const sumTotalField = (value) => ({ type: SUM_TOTALFIELD, value });
