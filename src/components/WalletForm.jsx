@@ -37,14 +37,14 @@ class WalletForm extends Component {
 
     dispatch(currencyAPI());
 
+    const exchangeFiltered = Object.values(currentPrice).find((a) => a.code === currency);
+    dispatch(sumTotalField(value * exchangeFiltered.ask));
+
     const expense = {
       ...this.state,
       exchangeRates: currentPrice,
     };
     dispatch(addExpense(expense));
-
-    const exchangeFiltered = Object.values(currentPrice).find((a) => a.code === currency);
-    dispatch(sumTotalField(value * exchangeFiltered.ask));
 
     this.setState({
       ...INITIAL_STATE,
