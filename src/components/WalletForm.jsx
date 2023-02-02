@@ -41,7 +41,6 @@ class WalletForm extends Component {
       ...this.state,
       exchangeRates: currentPrice,
     };
-
     dispatch(addExpense(expense));
 
     const exchangeFiltered = Object.values(currentPrice).find((a) => a.code === currency);
