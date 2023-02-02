@@ -1,0 +1,27 @@
+.walletFormDiv {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.textInputs {
+  margin: 0 10px;
+  padding: 10px;
+}
+
+button {
+  height: 38px;
+  margin: 0 10px;
+}
+
+select {
+  height: 38px;
+  margin: 0 10px;
+}
+
+label {
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

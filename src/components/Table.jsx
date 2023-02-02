@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './styles/table.css';
 
 class Table extends Component {
   arredondar = (n) => ((Math.round(n * 100) / 100).toFixed(2));
@@ -21,35 +22,36 @@ class Table extends Component {
     console.log(expenses);
 
     return (
-      <table>
-        <thead>
-          <tr>
-            {headers.map((header, i) => (<th key={ i }>{ header }</th>))}
-          </tr>
-        </thead>
-        <tbody>
-          {
-            expenses.map((expense) => {
-              const { exchangeRates } = expense;
-              const exchange = Object.values(exchangeRates)
-                .find((a) => a.code === expense.currency);
-              console.log(exchange);
-              return (
-                <tr key={ expense.id }>
-                  <td>{ expense.description }</td>
-                  <td>{ expense.tag }</td>
-                  <td>{ expense.method }</td>
-                  <td>{ this.arredondar(expense.value) }</td>
-                  <td>{ exchange.name }</td>
-                  <td>{ this.arredondar(exchange.ask) }</td>
-                  <td>{ (this.arredondar(expense.value * exchange.ask)) }</td>
-                  <td>Real</td>
-                </tr>
-              );
-            })
-          }
-        </tbody>
-      </table>
+      <div className="tableDiv">
+        <table>
+          <thead>
+            <tr>
+              {headers.map((header, i) => (<th key={ i }>{ header }</th>))}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              expenses.map((expense) => {
+                const { exchangeRates } = expense;
+                const exchange = Object.values(exchangeRates)
+                  .find((a) => a.code === expense.currency);
+                return (
+                  <tr key={ expense.id }>
+                    <td>{ expense.description }</td>
+                    <td>{ expense.tag }</td>
+                    <td>{ expense.method }</td>
+                    <td>{ this.arredondar(expense.value) }</td>
+                    <td>{ exchange.name }</td>
+                    <td>{ this.arredondar(exchange.ask) }</td>
+                    <td>{ (this.arredondar(expense.value * exchange.ask)) }</td>
+                    <td>Real</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

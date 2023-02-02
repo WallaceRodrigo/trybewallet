@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addExpense, currencyAPI, sumTotalField } from '../redux/actions';
+import './styles/walletForm.css';
 
 const INITIAL_STATE = {
   value: '',
@@ -58,10 +59,11 @@ class WalletForm extends Component {
     const { value, description, currency, method, tag } = this.state;
 
     return (
-      <div>
+      <div className="walletFormDiv">
         <label htmlFor="value-input">
           Valor
           <input
+            className="textInputs"
             type="number"
             data-testid="value-input"
             id="value-input"
@@ -74,6 +76,7 @@ class WalletForm extends Component {
           Descrição da Despesa
           <input
             type="text"
+            className="textInputs"
             data-testid="description-input"
             id="description-input"
             name="description"

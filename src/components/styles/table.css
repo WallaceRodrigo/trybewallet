@@ -1,0 +1,27 @@
+.tableDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+table {
+  background-color: #353638;
+  text-align: center;
+  width: 95%;
+}
+
+thead {
+  background-color: #1a1b1c;
+  height: 50px;
+  width: 200px;
+}
+
+th {
+  width: 200px;
+}
+
+td {
+  background-color: #242627;
+  height: 40px;
+  width: 15%;
+}
