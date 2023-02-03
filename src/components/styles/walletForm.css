@@ -1,25 +1,53 @@
-.walletFormDiv {
-  align-items: center;
+.walletFormContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .textInputs {
   margin: 0 10px;
   padding: 10px;
+  border-radius: 10px;
 }
 
-button {
+.walletFormDiv {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  min-width: 700px;
+  width: 80%;
+  height: 300px;
+  flex-wrap: wrap;
+  background-color: #242627;
+  border-radius: 20px;
+}
+
+.walletFormContainer button {
   height: 38px;
-  margin: 0 10px;
+  width: 250px;
+  border-radius: 10px;
+  margin: 50px 10px;
 }
 
-select {
+.walletFormDiv select {
   height: 38px;
-  margin: 0 10px;
+  margin: 0 20px;
+  width: 150px;
+  border-radius: 10px;
 }
 
-label {
+.walletFormDiv label h3{
+  position: relative;
+  left: 10px;
+  top: 15px;
+}
+
+.walletFormDiv label select{
+  position: relative;
+  right: 10px;
+}
+
+.walletFormDiv label {
   bottom: 10px;
   display: flex;
   flex-direction: column;

@@ -1,10 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { minusTotalField, removeExpense } from '../redux/actions';
 import './styles/table.css';
 
 class Table extends Component {
   arredondar = (n) => ((Math.round(n * 100) / 100).toFixed(2));
+
+  handleDelete = (expense, convertedValue) => {
+    const { expenses, dispatch } = this.props;
+    const filteredExpense = expenses.filter((exp) => exp.id !== expense.id);
+
+    dispatch(removeExpense(filteredExpense));
+    dispatch(minusTotalField((convertedValue)));
+  };
 
   render() {
     const headers = [
@@ -18,8 +27,8 @@ class Table extends Component {
       'Moeda de conversão',
       'Editar/Excluir',
     ];
+
     const { expenses } = this.props;
-    console.log(expenses);
 
     return (
       <div className="tableDiv">
@@ -35,6 +44,7 @@ class Table extends Component {
                 const { exchangeRates } = expense;
                 const exchange = Object.values(exchangeRates)
                   .find((a) => a.code === expense.currency);
+                const convertedValue = expense.value * exchange.ask;
                 return (
                   <tr key={ expense.id }>
                     <td>{ expense.description }</td>
@@ -43,8 +53,17 @@ class Table extends Component {
                     <td>{ this.arredondar(expense.value) }</td>
                     <td>{ exchange.name }</td>
                     <td>{ this.arredondar(exchange.ask) }</td>
-                    <td>{ (this.arredondar(expense.value * exchange.ask)) }</td>
+                    <td>{ (this.arredondar(convertedValue)) }</td>
                     <td>Real</td>
+                    <td>
+                      <button
+                        type="button"
+                        data-testid="delete-btn"
+                        onClick={ () => this.handleDelete(expense, convertedValue) }
+                      >
+                        Excluir
+                      </button>
+                    </td>
                   </tr>
                 );
               })
@@ -58,6 +77,7 @@ class Table extends Component {
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

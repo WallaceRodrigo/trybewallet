@@ -59,70 +59,82 @@ class WalletForm extends Component {
     const { value, description, currency, method, tag } = this.state;
 
     return (
-      <div className="walletFormDiv">
-        <label htmlFor="value-input">
-          Valor
-          <input
-            className="textInputs"
-            type="number"
-            data-testid="value-input"
-            id="value-input"
-            name="value"
-            value={ value }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="description-input">
-          Descrição da Despesa
-          <input
-            type="text"
-            className="textInputs"
-            data-testid="description-input"
-            id="description-input"
-            name="description"
-            value={ description }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <select
-          id="currency"
-          data-testid="currency-input"
-          name="currency"
-          value={ currency }
-          onChange={ this.handleChange }
-        >
-          {
-            currencies.map((curr, index) => (
-              <option key={ index }>{ curr }</option>
-            ))
-          }
-        </select>
-        <select
-          id="method-input"
-          data-testid="method-input"
-          name="method"
-          value={ method }
-          onChange={ this.handleChange }
-        >
-          {
-            methods.map((met, index) => (
-              <option key={ index }>{ met }</option>
-            ))
-          }
-        </select>
-        <select
-          id="tag-input"
-          data-testid="tag-input"
-          name="tag"
-          value={ tag }
-          onChange={ this.handleChange }
-        >
-          {
-            tags.map((t, index) => (
-              <option key={ index }>{ t }</option>
-            ))
-          }
-        </select>
+      <div className="walletFormContainer">
+        <div className="walletFormDiv">
+          <label htmlFor="value-input">
+            <h3>Valor</h3>
+            <input
+              className="textInputs"
+              type="number"
+              data-testid="value-input"
+              id="value-input"
+              name="value"
+              value={ value }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="description-input">
+            <h3>Descrição da despesa</h3>
+            <input
+              type="text"
+              className="textInputs"
+              data-testid="description-input"
+              id="description-input"
+              name="description"
+              value={ description }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="currency">
+            <h3>Moeda</h3>
+            <select
+              id="currency"
+              data-testid="currency-input"
+              name="currency"
+              value={ currency }
+              onChange={ this.handleChange }
+            >
+              {
+                currencies.map((curr, index) => (
+                  <option key={ index }>{ curr }</option>
+                ))
+              }
+            </select>
+
+          </label>
+          <label htmlFor="method-input">
+            <h3>Forma de pagamento</h3>
+            <select
+              id="method-input"
+              data-testid="method-input"
+              name="method"
+              value={ method }
+              onChange={ this.handleChange }
+            >
+              {
+                methods.map((met, index) => (
+                  <option key={ index }>{ met }</option>
+                ))
+              }
+            </select>
+          </label>
+          <label htmlFor="tag-input">
+            <h3>Categoria da despesa</h3>
+            <select
+              id="tag-input"
+              data-testid="tag-input"
+              name="tag"
+              value={ tag }
+              onChange={ this.handleChange }
+            >
+              {
+                tags.map((t, index) => (
+                  <option key={ index }>{ t }</option>
+                ))
+              }
+            </select>
+          </label>
+        </div>
         <button onClick={ () => this.onClick() }>Adicionar despesa</button>
       </div>
     );

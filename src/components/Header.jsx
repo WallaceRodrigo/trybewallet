@@ -11,7 +11,11 @@ class Header extends Component {
         <h3 data-testid="email-field">{ `Email: ${email}` }</h3>
         <h3>
           <span>Despesas Totais: </span>
-          <span data-testid="total-field">{ totalValue.toFixed(2) }</span>
+          <span data-testid="total-field">
+            {
+              totalValue.toFixed(2) < 1 ? '0.00' : totalValue.toFixed(2)
+            }
+          </span>
         </h3>
         <h3 data-testid="header-currency-field">{ `Moeda: ${'BRL'}` }</h3>
       </div>

@@ -25,3 +25,13 @@ td {
   height: 40px;
   width: 15%;
 }
+
+.tableDiv button {
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+}
+
+.tableDiv button:active {
+  filter: brightness(50%);
+}

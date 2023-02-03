@@ -1,4 +1,11 @@
-import { ADD_EXPENSE, API_ERROR, API_SUCCESS, SUM_TOTALFIELD } from '../actions';
+import {
+  ADD_EXPENSE,
+  API_ERROR,
+  API_SUCCESS,
+  SUM_TOTALFIELD,
+  REMOVE_EXPENSE,
+  MINUS_TOTALFIELD,
+} from '../actions';
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -32,10 +39,20 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: state.expenses.concat(action.expenses),
     };
+  case REMOVE_EXPENSE:
+    return {
+      ...state,
+      expenses: action.expenses,
+    };
   case SUM_TOTALFIELD:
     return {
       ...state,
       totalValue: state.totalValue + action.value,
+    };
+  case MINUS_TOTALFIELD:
+    return {
+      ...state,
+      totalValue: state.totalValue - action.value,
     };
   default:
     return state;
