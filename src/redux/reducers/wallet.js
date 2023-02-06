@@ -5,6 +5,9 @@ import {
   SUM_TOTALFIELD,
   REMOVE_EXPENSE,
   MINUS_TOTALFIELD,
+  EDIT_EXPENSE,
+  SAVE_EDIT_EXPENSE,
+  SAVE_TOTALFIELD,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -19,6 +22,7 @@ const INITIAL_STATE = {
     },
   },
   totalValue: 0,
+  editedExpense: {},
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -53,6 +57,21 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       totalValue: state.totalValue - action.value,
+    };
+  case SAVE_TOTALFIELD:
+    return {
+      ...state,
+      totalValue: action.value,
+    };
+  case EDIT_EXPENSE:
+    return {
+      ...state,
+      editedExpense: action.expense,
+    };
+  case SAVE_EDIT_EXPENSE:
+    return {
+      ...state,
+      expenses: action.expense,
     };
   default:
     return state;

@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addExpense, currencyAPI, sumTotalField } from '../redux/actions';
+import { addExpense,
+  currencyAPI,
+  editExpense,
+  saveEditExpense,
+  saveTotalField,
+  sumTotalField } from '../redux/actions';
 import './styles/walletForm.css';
 
 const INITIAL_STATE = {
@@ -52,11 +57,54 @@ class WalletForm extends Component {
     });
   };
 
+  onEditClick = () => {
+    const { dispatch, editedExpense } = this.props;
+    const { value, description, currency, method, tag } = this.state;
+
+    const alteratedExpense = {
+      ...editedExpense,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    };
+
+    const { expenses } = this.props;
+    const filteredExpense = expenses.filter((exp) => exp.id !== editedExpense.id);
+    const newExpenses = filteredExpense.concat(alteratedExpense);
+    const newExpensesOrdened = newExpenses.sort((a, b) => {
+      const one = -1;
+      if (a.id < b.id) return one;
+      if (a.id > b.id) return 1;
+      return 0;
+    });
+
+    const exchangeValues = newExpensesOrdened.map((el) => {
+      const { currentPrice } = this.props;
+      const exchangeFiltered = Object
+        .values(currentPrice).find((a) => a.code === el.currency);
+      return exchangeFiltered.ask * el.value;
+    });
+    const newHeaderTotal = exchangeValues
+      .reduce((accumulator, curr) => accumulator + curr, 0);
+
+    dispatch(saveTotalField(newHeaderTotal));
+    dispatch(editExpense({}));
+    dispatch(saveEditExpense(newExpensesOrdened));
+
+    this.setState({
+      ...INITIAL_STATE,
+    });
+  };
+
   render() {
     const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const tags = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
-    const { currencies } = this.props;
+    const { currencies, editedExpense } = this.props;
     const { value, description, currency, method, tag } = this.state;
+
+    const editing = editedExpense.value !== undefined;
 
     return (
       <div className="walletFormContainer">
@@ -69,6 +117,7 @@ class WalletForm extends Component {
               data-testid="value-input"
               id="value-input"
               name="value"
+              placeholder={ editing ? editedExpense.value : '' }
               value={ value }
               onChange={ this.handleChange }
             />
@@ -81,6 +130,7 @@ class WalletForm extends Component {
               data-testid="description-input"
               id="description-input"
               name="description"
+              placeholder={ editing ? editedExpense.description : '' }
               value={ description }
               onChange={ this.handleChange }
             />
@@ -135,7 +185,10 @@ class WalletForm extends Component {
             </select>
           </label>
         </div>
-        <button onClick={ () => this.onClick() }>Adicionar despesa</button>
+        {
+          editing ? <button onClick={ () => this.onEditClick() }>Editar despesa</button>
+            : <button onClick={ () => this.onClick() }>Adicionar despesa</button>
+        }
       </div>
     );
   }
@@ -149,11 +202,26 @@ WalletForm.propTypes = {
     }),
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  editedExpense: PropTypes.shape({
+    id: PropTypes.number,
+    value: PropTypes.string,
+    description: PropTypes.string,
+    currency: PropTypes.string,
+    method: PropTypes.string,
+    tag: PropTypes.string,
+  }).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   currentPrice: state.wallet.currentPrice,
+  editedExpense: state.wallet.editedExpense,
+  expenses: state.wallet.expenses,
+  func: state.wallet.func,
 });
 
 export default connect(mapStateToProps)(WalletForm);
+
+// Ordenar array de objetos
+// https://pt.stackoverflow.com/questions/46600/como-ordenar-uma-array-de-objetos-com-array-sort

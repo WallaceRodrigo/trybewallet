@@ -4,6 +4,8 @@ import { screen } from '@testing-library/react';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import WalletForm from '../components/WalletForm';
 import Header from '../components/Header';
+import Wallet from '../pages/Wallet';
+import mockData from './helpers/mockData';
 
 describe('Testa o componente Login', () => {
   it('Testa se o email é recuperado do estado global e exibido na tela', () => {
@@ -66,5 +68,18 @@ describe('Testa o componente Login', () => {
       value: '10',
     };
     expect(store.getState().wallet.expenses[0]).toMatchObject(expectStore);
+  });
+
+  it('Testa o fetch', () => {
+    global.fetch = jest.fn(() => (Promise.resolve({
+      json: () => Promise.resolve(mockData),
+    })));
+
+    const { store } = renderWithRouterAndRedux(<Wallet />);
+
+    expect(store).toBe('');
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
   });
 });
