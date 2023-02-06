@@ -75,11 +75,57 @@ describe('Testa o componente Login', () => {
       json: () => Promise.resolve(mockData),
     })));
 
-    const { store } = renderWithRouterAndRedux(<Wallet />);
-
-    expect(store).toBe('');
+    renderWithRouterAndRedux(<Wallet />);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
+  });
+
+  it('Testa a função de editar uma despesa', () => {
+    renderWithRouterAndRedux(<Wallet />);
+
+    const valueInput = screen.getByRole('spinbutton', { name: /valor/i });
+    const descriptionInput = screen.getByRole('textbox', { name: /descrição da despesa/i });
+    const methodInput = screen.getByRole('combobox', { name: /forma de pagamento/i });
+    const tagInput = screen.getByRole('combobox', { name: /categoria da despesa/i });
+
+    userEvent.type(valueInput, '10');
+    userEvent.type(descriptionInput, 'Ten Dollars');
+    userEvent.selectOptions(methodInput, 'Dinheiro');
+    userEvent.selectOptions(tagInput, 'Lazer');
+
+    const addButton = screen.getByRole('button', { name: /adicionar despesa/i });
+    userEvent.click(addButton);
+
+    const description = screen.getByText('Ten Dollars');
+    const value = screen.getByText('10.00');
+    const method = screen.getAllByText('Dinheiro');
+    const tag = screen.getAllByText('Lazer');
+
+    expect(description).toBeInTheDocument();
+    expect(value).toBeInTheDocument();
+    expect(method[1]).toBeInTheDocument();
+    expect(tag[1]).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: /Real/i })).toBeInTheDocument();
+
+    const editButton = screen.getByTestId('edit-btn');
+
+    expect(editButton).toBeInTheDocument();
+    userEvent.click(editButton);
+
+    const saveEditButton = screen.getByText('Editar despesa');
+    expect(saveEditButton).toBeInTheDocument();
+
+    userEvent.type(valueInput, '200');
+    userEvent.type(descriptionInput, '200 Dollars');
+    userEvent.selectOptions(methodInput, 'Cartão de débito');
+    userEvent.selectOptions(tagInput, 'Trabalho');
+
+    userEvent.click(saveEditButton);
+
+    expect(screen.getByText('200 Dollars')).toBeInTheDocument();
+    expect(screen.getByText('200.00')).toBeInTheDocument();
+    expect(screen.getAllByText('Cartão de débito')[1]).toBeInTheDocument();
+    expect(screen.getAllByText('Trabalho')[1]).toBeInTheDocument();
   });
 });

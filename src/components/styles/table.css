@@ -32,7 +32,7 @@ td {
   color: white;
 }
 
-.tableDiv button:nth-child(2) {
+.tableDiv button:nth-child( 2 ) {
   background-color: blue;
   border-radius: 10px;
   color: white;
