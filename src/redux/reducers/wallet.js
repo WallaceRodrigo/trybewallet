@@ -1,6 +1,5 @@
 import {
   ADD_EXPENSE,
-  API_ERROR,
   API_SUCCESS,
   SUM_TOTALFIELD,
   REMOVE_EXPENSE,
@@ -32,11 +31,6 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       currencies: Object.keys(action.data).filter((c) => c !== 'USDT'),
       currentPrice: action.data,
-    };
-  case API_ERROR:
-    return {
-      ...state,
-      currencies: action.error,
     };
   case ADD_EXPENSE:
     return {
