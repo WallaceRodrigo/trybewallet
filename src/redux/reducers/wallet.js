@@ -7,7 +7,10 @@ import {
   EDIT_EXPENSE,
   SAVE_EDIT_EXPENSE,
   SAVE_TOTALFIELD,
+  DISPLAYEDITS,
 } from '../actions';
+
+const initialFunc = () => {};
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -22,6 +25,7 @@ const INITIAL_STATE = {
   },
   totalValue: 0,
   editedExpense: {},
+  func: initialFunc(),
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -66,6 +70,11 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: action.expense,
+    };
+  case DISPLAYEDITS:
+    return {
+      ...state,
+      func: action.func,
     };
   default:
     return state;

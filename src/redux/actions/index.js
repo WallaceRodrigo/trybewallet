@@ -40,3 +40,6 @@ export const saveTotalField = (value) => ({ type: SAVE_TOTALFIELD, value });
 export const editExpense = (expense) => ({ type: EDIT_EXPENSE, expense });
 
 export const saveEditExpense = (expense) => ({ type: SAVE_EDIT_EXPENSE, expense });
+
+export const DISPLAYEDITS = 'DISPLAYEDITS';
+export const displayEdits = (func) => ({ type: DISPLAYEDITS, func });

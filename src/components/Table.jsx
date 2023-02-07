@@ -16,9 +16,10 @@ class Table extends Component {
   };
 
   handleEdit = (expense) => {
-    const { dispatch } = this.props;
+    const { dispatch, func } = this.props;
 
     dispatch(editExpense(expense));
+    func(expense); // função que mostra as edições no forms
   };
 
   render() {
@@ -92,10 +93,12 @@ class Table extends Component {
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   dispatch: PropTypes.func.isRequired,
+  func: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
+  func: state.wallet.func,
 });
 
 export default connect(mapStateToProps)(Table);

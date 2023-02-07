@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { addExpense,
   currencyAPI,
   editExpense,
+  displayEdits,
   saveEditExpense,
   saveTotalField,
   sumTotalField } from '../redux/actions';
@@ -26,6 +27,9 @@ class WalletForm extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(currencyAPI());
+
+    const defineEdits = (expense) => { this.setState({ ...expense }); };
+    dispatch(displayEdits(defineEdits));
   }
 
   handleChange = ({ target }) => {
@@ -117,7 +121,6 @@ class WalletForm extends Component {
               data-testid="value-input"
               id="value-input"
               name="value"
-              placeholder={ editing ? editedExpense.value : '' }
               value={ value }
               onChange={ this.handleChange }
             />
@@ -130,7 +133,6 @@ class WalletForm extends Component {
               data-testid="description-input"
               id="description-input"
               name="description"
-              placeholder={ editing ? editedExpense.description : '' }
               value={ description }
               onChange={ this.handleChange }
             />

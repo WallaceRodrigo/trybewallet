@@ -72,29 +72,29 @@ describe('Testa o componente Login', () => {
     expect(store.getState().wallet.expenses[0]).toMatchObject(expectStore);
   });
 
-  // it('Testa o fetch', () => {
-  //   global.fetch = jest.fn(() => (Promise.resolve({
-  //     json: () => Promise.resolve(mockData),
-  //   })));
+  it('Testa o fetch', () => {
+    global.fetch = jest.fn(() => (Promise.resolve({
+      json: () => Promise.resolve(mockData),
+    })));
 
-  //   renderWithRouterAndRedux(<Wallet />);
-
-  //   expect(global.fetch).toHaveBeenCalledTimes(1);
-  //   expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
-  // });
-
-  it('Testa um erro no fetch', async () => {
-    global.fetch = jest.fn(async () => ({
-      json: async () => mockData,
-    }));
-
-    const { store } = renderWithRouterAndRedux(<Wallet />);
-
-    await expect(store.getState().wallet).toBe('');
+    renderWithRouterAndRedux(<Wallet />);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
   });
+
+  // it('Testa um erro no fetch', async () => {
+  //   global.fetch = jest.fn(async () => ({
+  //     json: async () => mockData,
+  //   }));
+
+  //   const { store } = renderWithRouterAndRedux(<Wallet />);
+
+  //   await expect(store.getState().wallet).toBe('');
+
+  //   expect(global.fetch).toHaveBeenCalledTimes(1);
+  //   expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
+  // });
 
   it('Testa a função de editar uma despesa entre duas e se a ordem está correta', () => {
     renderWithRouterAndRedux(<Wallet />);
@@ -139,8 +139,10 @@ describe('Testa o componente Login', () => {
 
     userEvent.click(editButton[0]);
 
+    userEvent.clear(valueInput);
     userEvent.type(valueInput, '500');
-    userEvent.type(descriptionInput, '500 Dollars');
+    userEvent.clear(descriptionInput);
+    userEvent.type(descriptionInput, '600 Dollars');
     userEvent.selectOptions(methodInput, 'Cartão de crédito');
     userEvent.selectOptions(tagInput, 'Trabalho');
 
@@ -151,7 +153,22 @@ describe('Testa o componente Login', () => {
 
     expect(screen.getByText('100 Dollars')).toBeInTheDocument();
     expect(screen.getByText('300 Dollars')).toBeInTheDocument();
-    expect(screen.getByText('500 Dollars')).toBeInTheDocument();
+
+    userEvent.click(editButton[2]);
+
+    userEvent.clear(valueInput);
+    userEvent.type(valueInput, '900');
+    userEvent.clear(descriptionInput);
+    userEvent.type(descriptionInput, '900 Dollars');
+    userEvent.selectOptions(tagInput, 'Trabalho');
+
+    expect(saveEditButton).toBeInTheDocument();
+
+    userEvent.click(saveEditButton);
+
+    expect(screen.getByText(dollars100)).toBeInTheDocument();
+    expect(screen.getByText('600 Dollars')).toBeInTheDocument();
+    expect(screen.getByText('900 Dollars')).toBeInTheDocument();
   });
 
   it('Testa a função de editar uma despesa', () => {
@@ -189,14 +206,16 @@ describe('Testa o componente Login', () => {
     const saveEditButton = screen.getByText('Editar despesa');
     expect(saveEditButton).toBeInTheDocument();
 
+    userEvent.clear(valueInput);
     userEvent.type(valueInput, '200');
+    userEvent.clear(descriptionInput);
     userEvent.type(descriptionInput, '200 Dollars');
     userEvent.selectOptions(methodInput, 'Cartão de débito');
     userEvent.selectOptions(tagInput, 'Trabalho');
 
     userEvent.click(saveEditButton);
 
-    expect(screen.getByText('200 Dollars')).toBeInTheDocument();
+    expect(screen.getAllByText('200 Dollars')[0]).toBeInTheDocument();
     expect(screen.getByText('200.00')).toBeInTheDocument();
     expect(screen.getAllByText('Cartão de débito')[1]).toBeInTheDocument();
     expect(screen.getAllByText('Trabalho')[1]).toBeInTheDocument();
