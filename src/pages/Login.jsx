@@ -64,6 +64,10 @@ class Login extends React.Component {
             Entrar
           </button>
         </div>
+
+        <p style={ { position: 'absolute', bottom: '10px' } }>
+          Esse login não é funcional, relevante apenas para o funcionamento da aplicação
+        </p>
       </div>
     );
   }
