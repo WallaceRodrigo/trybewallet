@@ -10,10 +10,16 @@
   padding: 10px;
 }
 
+.textInputs:hover {
+  filter: brightness(85%);
+}
+
 .walletFormDiv {
   align-items: center;
+  animation: glowing 5s linear 2s infinite alternate;
   background-color: #242627;
   border-radius: 20px;
+  box-shadow: 5px 5px 5px rgb(0, 217, 255);
   display: flex;
   flex-wrap: wrap;
   height: 300px;
@@ -29,11 +35,23 @@
   width: 250px;
 }
 
+.walletFormContainer button:hover {
+  filter: brightness(75%);
+}
+
+.walletFormContainer button:active {
+  transform: scale(98%);
+}
+
 .walletFormDiv select {
   border-radius: 10px;
   height: 38px;
   margin: 0 20px;
   width: 150px;
+}
+
+.walletFormDiv select:hover {
+  filter: brightness(85%);
 }
 
 .walletFormDiv label h3 {

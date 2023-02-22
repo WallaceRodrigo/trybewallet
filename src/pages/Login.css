@@ -1,0 +1,64 @@
+.LoginFormContainer {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.loginForm {
+  animation: glowing 5s linear 2s infinite alternate;
+  background-color: #242627;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px rgb(0, 217, 255);
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 400px;
+}
+
+.loginForm h1 {
+  align-self: center;
+}
+
+.textInputs {
+  border-radius: 10px;
+  margin: 0 10px;
+  padding: 10px;
+}
+
+.loginForm button {
+  align-self: center;
+  border-radius: 10px;
+  height: 38px;
+  margin: 50px 10px;
+  width: 250px;
+}
+
+.loginForm button:hover {
+  filter: brightness(75%);
+}
+
+.loginForm button:active {
+  transform: scale(98%);
+}
+
+.loginForm label {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  position: relative;
+}
+
+.loginForm label h3 {
+  left: 10px;
+  position: relative;
+  top: 15px;
+}
+
+@keyframes glowing {
+
+  50% { box-shadow: 5px 5px 20px rgb(0, 217, 255); }
+
+  100% { box-shadow: 5px 5px 40px rgb(0, 217, 255); }
+}

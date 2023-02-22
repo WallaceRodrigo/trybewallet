@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveEmail } from '../redux/actions';
+import './Login.css';
 
 class Login extends React.Component {
   state = {
@@ -30,35 +31,39 @@ class Login extends React.Component {
     const buttonValidation = password.length >= six && regex.test(email);
 
     return (
-      <div>
-        <h1>Login</h1>
-        <label htmlFor="email">
-          Email
-          <input
-            type="email"
-            name="email"
-            id="email"
-            data-testid="email-input"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            type="text"
-            name="password"
-            id="password"
-            data-testid="password-input"
-            minLength={ 6 }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          disabled={ !buttonValidation }
-          onClick={ () => this.onClick() }
-        >
-          Entrar
-        </button>
+      <div className="LoginFormContainer">
+        <div className="loginForm">
+          <h1>Login</h1>
+          <label htmlFor="email">
+            <h3>Email</h3>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="textInputs"
+              data-testid="email-input"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="password">
+            <h3>Password</h3>
+            <input
+              type="text"
+              name="password"
+              id="password"
+              className="textInputs"
+              data-testid="password-input"
+              minLength={ 6 }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <button
+            disabled={ !buttonValidation }
+            onClick={ () => this.onClick() }
+          >
+            Entrar
+          </button>
+        </div>
       </div>
     );
   }

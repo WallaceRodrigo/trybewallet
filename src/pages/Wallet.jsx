@@ -7,7 +7,7 @@ class Wallet extends React.Component {
   render() {
     return (
       <div>
-        <div>TrybeWallet</div>
+        <h1 style={ { display: 'flex', justifyContent: 'center' } }>TrybeWallet</h1>
         <Header />
         <WalletForm />
         <Table />
