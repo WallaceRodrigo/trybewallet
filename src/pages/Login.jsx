@@ -48,7 +48,7 @@ class Login extends React.Component {
           <label htmlFor="password">
             <h3>Password</h3>
             <input
-              type="text"
+              type="password"
               name="password"
               id="password"
               className="textInputs"
